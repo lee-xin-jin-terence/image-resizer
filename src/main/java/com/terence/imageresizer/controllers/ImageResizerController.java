@@ -20,7 +20,16 @@ public class ImageResizerController {
     @Autowired
     private ImageResizerService imageResizerService;
 
-
+    /**
+     * Handles the request for image resizing
+     *
+     * @param percentageReductionOfImageSize the percentage of the image to be reduced
+     *                  e.g. if the image is to be reduced by 40%, then the parcentage
+     *                                       reduction is 40
+     * @param imageFile - a multipart image file to be resized
+     *
+     * @return a resized JPEG image aas body of response (if successful)
+     * */
     @PostMapping(value = "/resize-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<byte[]> resizeImage(
             @RequestParam("percentageReductionOfImageSize") int percentageReductionOfImageSize,
@@ -38,6 +47,11 @@ public class ImageResizerController {
     }
 
 
+    /**
+     * Handles any exceptions encountered when image resizing failed
+     *
+     * @return a HTTP bad request response (400)
+     * */
     @ExceptionHandler({ IllegalArgumentException.class})
     public ResponseEntity<String> handleIllegalArgumentException() {
         return ResponseEntity.badRequest()
